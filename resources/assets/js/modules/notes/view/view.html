@@ -1,0 +1,27 @@
+<div class="panel">
+    <div class="panel-body">
+        <button ui-sref="notes.list" class="btn btn-default">Back</button>
+        <button class="btn pull-right btn-danger" ng-click="ctrl.deleteNote()">Delete</button>
+    </div>
+    <hr style="margin: 0 0 20px border-top-color: #ddd">
+    <div class="form-group">
+        <textarea
+            class="form-control input-lg"
+            rows="1"
+            type="text"
+            ng-change="ctrl.updateNote()"
+            ng-model="ctrl.note.name"
+            placeholder="Note title"
+            style="box-shadow: none padding: 0 15px border: 0 resize: none"
+            msd-elastic></textarea>
+    </div>
+
+    <div class="form-group">
+        <textarea
+            class="form-control"
+            ng-model="ctrl.note.body"
+            ng-change="ctrl.updateNote()"
+            style="min-height: 400px box-shadow: none padding: 0 15px border: 0 resize: none"
+            msd-elastic></textarea>
+    </div>
+</div>

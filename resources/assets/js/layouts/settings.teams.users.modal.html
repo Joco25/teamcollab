@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <button
+        ng-click="ctrl.cancel()"
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Team Users</h4>
+</div>
+<div class="modal-body">
+    <form ng-submit="ctrl.inviteEmail()">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Enter user's email and hit enter..."
+                        ng-model="ctrl.newEmail">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-success">
+                    Invite
+                </button>
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr ng-repeat="user in ctrl.team.users">
+            <td class="vert-align">
+                <span ng-show="user.name">{{ user.name }}</span>
+                <span ng-hide="user.name" class="text-muted">No name found</span>
+            </td>
+            <td class="vert-align">{{ user.email }}</td>
+            <td class="text-right">
+                <button class="btn btn-danger btn-sm" ng-click="ctrl.deleteUser(user)">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button
+        type="button"
+        class="btn btn-link"
+        data-dismiss="modal"
+        ng-click="ctrl.cancel()">
+        Close
+    </button>
+</div>

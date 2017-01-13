@@ -1,0 +1,197 @@
+<div class="panel">
+	<div class="panel-body">
+		<h3 style="margin: 0;">
+            <span class="pointer" ui-sref="conversations.list">
+                <i class="fa fa-long-arrow-left text-info"></i>
+            </span>
+			<i
+				class='fa fa-star pointer'
+				ng-click='ctrl.toggleTopicUserStar(ctrl.topic)'
+				ng-class="{ 'text-muted': !ctrl.topic.is_starred, 'text-orange': ctrl.topic.is_starred }"></i>
+			{{ ctrl.topic.name }}
+		</h3>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="panel-body">
+		<div class='row'>
+			<div class='col-sm-12'>
+				<div class="media" ng-repeat='post in ctrl.topic.posts'>
+					<a class="pull-left" href="#">
+						<img width="50" class="media-object" gravatar-src="post.user.email" gravatar-size="50">
+					</a>
+					<div class="media-body">
+						<h5 class="media-heading muted"><strong>{{ post.user.name }}</strong></h5>
+						<div ng-show='!post.editMode'>
+							{{ post.post.user.name }}
+							<div ng-bind-html-unsafe="post.body"></div>
+
+							<div class='row' ng-show='$index == 0'>
+								<div class='col-sm-12'>
+									<div class='pull-right'>
+										 <button
+										 	class='btn btn-default'
+											ng-show='post.user_id !== ctrl.authUser.id'
+											ng-class='{ active: post.is_liked }'
+											ng-click='ctrl.togglePostUserLike(post)'>
+											<i class='fa fa-heart' ng-class='{ "text-red": post.is_liked }'></i>
+										</button>
+										<button
+											class='btn btn-default'
+											ng-click='ctrl.selectPost(post); post.editMode = true'
+											ng-show='post.user_id === ctrl.authUser.id'>
+											<i class='fa fa-pencil'></i>
+										</button>
+										<button
+											class='btn btn-default'
+											ng-show='post.user_id === ctrl.authUser.id && ctrl.topic.posts.length == 1'
+											ng-click='ctrl.deleteTopic(ctrl.topic.id)'
+											title='Delete this post?'>
+											<i class='fa fa-trash'></i>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class='row mbm' ng-show='$index > 0'>
+								<div class='col-sm-12'>
+									<button
+                                        class='btn btn-default'
+                                        ng-click='post.showReplies = !post.showReplies'
+                                        ng-show='post.posts.length > 0'>
+										{{ post.posts.length }} Replies <i ng-class='{ "icon-chevron-down": !post.showReplies, "icon-chevron-up": post.showReplies }'></i>
+									</button>
+
+									<div class='pull-right'>
+										<button
+											class='btn btn-default'
+											ng-show='post.user_id !== ctrl.authUser.id'
+											ng-class='{ active: post.is_liked }'
+											ng-click='ctrl.togglePostUserLike(post)'>
+											<i class='fa fa-heart' ng-class='{ "text-red": post.is_liked }'></i>
+										</button>
+										<button
+											class='btn btn-default'
+											ng-click='ctrl.selectPost(post); post.editMode = true'
+											ng-show='post.user_id === ctrl.authUser.id'>
+											<i class='fa fa-pencil'></i>
+										</button>
+										<button
+											class='btn btn-default'
+											ng-show='post.user_id === ctrl.authUser.id'
+											ng-click='ctrl.deletePost(post.id)'
+											title='Delete this post?'>
+											<i class='fa fa-trash'></i>
+										</button>
+										<button
+											class='btn btn-primary'
+											ng-click='ctrl.selectPost(post); ctrl.newPost.topic_post_id = post.id; post.showNewPost = true'>
+											<i class='fa fa-reply'></i> Reply
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div ng-show='post.editMode'>
+							<div class='row'>
+								<div class='col-sm-12'>
+									<div class='form-group'>
+										<text-angular ng-model='ctrl.postCopy.body'></text-angular>
+									</div>
+									<button class='btn btn-success' ng-click='ctrl.updatePost()'>
+										Submit
+									</button>
+									<button class='btn btn-link' ng-click='ctrl.resetCurrentPost()'>
+										Cancel
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='well well-sm' ng-show='post.posts.length > 0 && post.showReplies'>
+						<div ng-repeat='iPost in post.posts'>
+							<div class="media" ng-repeat='iPost in post.posts'>
+								<a class="pull-left" href="#">
+									<img width="50" class="media-object" gravatar-src="iPost.user.email" gravatar-size="50">
+								</a>
+								<div class="media-body">
+									<h5 class="media-heading muted">{{ iPost.user.name }}</h5>
+									<div ng-bind-html-unsafe="iPost.body"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class='row' ng-show='post.showNewPost'>
+						<div class='col-sm-12'>
+							<form class='mbn' ng-submit='ctrl.createPost()'>
+								<text-angular ng-model='ctrl.newPost.body'></text-angular>
+								<button type='submit' class='btn btn-success'>
+									Submit
+								</button>
+								<button
+									type='button'
+									ng-click='ctrl.resetNewPost()'
+									class='btn btn-link'>
+									Cancel
+								</button>
+							</form>
+						</div>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+
+		<div class='row mbm'>
+			<div class='col-sm-12'>
+				<button
+                    class='btn btn-default'
+                    ng-class='{ active: ctrl.topic.is_starred }'
+                    ng-click='ctrl.toggleTopicUserStar(ctrl.topic)'>
+					<i
+                        class='icon-star'
+                        ng-class='{ "text-orange": ctrl.topic.is_starred }'></i> Star
+				</button>
+
+				<button
+                    class='btn btn-primary'
+                    ng-click='ctrl.filters.showNewPost = true'>
+					<i class='icon-plus'></i> Reply
+				</button>
+
+				<!-- <button class="btn" ng-click='ctrl.toggleNotification()'>
+					<span ng-show='watchNotification'>Stop Notifications</span>
+					<span ng-show='!watchNotification'>Get Notifications</span>
+				</button> -->
+			</div>
+		</div>
+
+		<div class='row' ng-show='ctrl.filters.showNewPost'>
+			<div class='col-sm-12'>
+				<form ng-submit='ctrl.createPost()' class='form-horizontal'>
+					<!-- <div class='mbm'>
+						<select class='input-full' placeholder='Tag Users'ui-select2 multiple ng-model='newctrl.topic.user_ids'>
+							<option ng-repeat="user in main.users" value='{{ user.id }}'>{{ user.name }}</option>
+						</select>
+					</div> -->
+
+					<text-angular ng-model='ctrl.newPost.body'></text-angular>
+
+					<button type='submit' class='btn btn-success'>
+						Submit
+					</button>
+					<button
+						ng-show='!ctrl.newPost.body'
+						type='button'
+						ng-click='ctrl.resetNewPost(post)'
+						class='btn btn-link'>
+						Cancel
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

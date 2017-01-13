@@ -1,0 +1,15 @@
+<div class="panel">
+    <div class="panel-body">
+        <button class="btn btn-success" ng-click="ctrl.createNote()">
+            Create Note
+        </button>
+    </div>
+
+    <table class="table table-hover">
+        <tr ng-repeat="note in ctrl.notes">
+            <td class="pointer" ui-sref="notes.view({ noteId: note.$id })">
+                <h4>{{ note.name }}</h4>
+            </td>
+        </tr>
+    </table>
+</div>

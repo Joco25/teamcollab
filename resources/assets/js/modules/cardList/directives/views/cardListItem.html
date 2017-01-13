@@ -1,0 +1,48 @@
+<div
+    style="background-image: url(http://res.cloudinary.com/michaeljcalkins/image/fetch/c_fill,g_center,w_500,h_200/{{ ctrl.s3BucketAttachmentsUrl + ctrl.card.attachments[0].filename }}); background-position: center; height: 190px; width: 100%; background-size: cover; margin-bottom: 5px;"
+    ng-show="ctrl.card.attachments.length > 0"></div>
+<div class="row">
+    <div class="col-sm-12">
+        {{ ctrl.card.name }}
+    </div>
+</div>
+<div class="row" style="margin-bottom: 7px" ng-show="ctrl.card.impact || ctrl.card.tags.length > 0">
+    <div class="col-sm-12">
+        <span ng-repeat="tag in ctrl.card.tags" ng-show="ctrl.card.tags.length > 0">
+            <span class="label label-primary">{{ tag.name }}</span>
+        </span>
+    </div>
+</div>
+<div class="row text-center text-muted">
+    <div class="col-sm-5ths" title="This ctrl.card has a description.">
+        <span ng-show="ctrl.card.description">
+            <i class="glyphicon glyphicon-align-left"></i>
+        </span>
+    </div>
+    <div class="col-sm-5ths" title="{{ ctrl.card.users.length }} user(s) assigned to this ctrl.card">
+        <span ng-show="ctrl.card.users.length">
+            <i class="glyphicon glyphicon-user"></i> {{ ctrl.card.users.length }}
+        </span>
+    </div>
+    <div class="col-sm-5ths" title="{{ ctrl.card.subtasks.length }} subtask(s)">
+        <span ng-show="ctrl.card.subtasks.length">
+            <i class="glyphicon glyphicon-ok"></i> {{ ctrl.card.subtasks.length }}
+        </span>
+    </div>
+    <div class="col-sm-5ths" title="{{ ctrl.card.attachments.length }} attachment(s)">
+        <span ng-show="ctrl.card.attachments.length">
+            <i class="glyphicon glyphicon-download-alt"></i> {{ ctrl.card.attachments.length }}
+        </span>
+    </div>
+    <div class="col-sm-5ths" title="{{ ctrl.card.comments.length }} comment(s)">
+        <span ng-show="ctrl.card.comments.length">
+            <i class="glyphicon glyphicon-comment"></i> {{ ctrl.card.comments.length }}
+        </span>
+    </div>
+</div>
+<div class="progress" ng-show="ctrl.card.impact">
+    <div
+        class="progress-bar progress-bar-info"
+        style="width: {{ ctrl.card.impact }}%"
+        title="Impact this ctrl.card has on the project"></div>
+</div>

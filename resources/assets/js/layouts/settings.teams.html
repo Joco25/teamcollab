@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">Teams</h3>
+        <button class="pull-right btn btn-sm btn-success" ng-click="ctrl.createTeam()">
+            Create Team
+        </button>
+        <div class="clearfix"></div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number of Members</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tr ng-repeat="team in ctrl.teams">
+            <td class="vert-align">
+                {{ team.name || 'Unamed team' }}
+            </td>
+            <td class="vert-align">
+                {{ team.users.length }}
+            </td>
+            <td class="text-right">
+                <button ng-click="ctrl.renameTeam(team)" class="btn btn-default" type="button">
+                    Rename
+                </button>
+                <button ng-click="ctrl.openTeamUsers(team)" class="btn btn-default" type="button">
+                    Users
+                </button>
+                <button ng-click="ctrl.deleteTeam(team)" class="btn btn-danger" type="button">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,111 @@
+.features-page {
+    color: #525252;
+    font-size: 16px;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: normal;
+        color: #525252;
+        margin-bottom: 15px
+    }
+
+    h1 {
+        margin-top: 50px;
+    }
+
+    section p {
+        margin: 10px 0 20px;
+    }
+
+    h2 {
+        position: relative;
+    }
+
+    i {
+        color: #A8539B;
+        position: absolute;
+        left: -26px;
+        top: 8px;
+        font-size: 20px;
+    }
+
+    .navbar-default {
+        border: 0;
+        border-radius: 0;
+        background-image: url('/img/home-bg.jpg');
+        background-size: cover;
+        padding: 20px 0;
+        font-family: 'Source Sans Pro','Helvetica Neue',Arial,sans-serif;
+        margin: 0;
+
+        .navbar-btn > .btn {
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+
+    .navbar-default .navbar-header .navbar-brand {
+        text-transform: lowercase;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        color: #fff;
+    }
+
+    .navbar-default .nav > li > a,
+    .navbar-default .nav > li > a:focus {
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .navbar-default .nav > li.active>a,
+    .navbar-default .nav>li.active>a:focus {
+        color: #fff!important;
+        background-color: transparent;
+    }
+
+    .navbar-default .nav > li.active>a:hover,
+    .navbar-default .nav>li.active>a:focus:hover {
+        background-color: transparent;
+    }
+
+    section {
+        padding: 0 125px 15px 50px;
+        clear: both;
+        width: 100%;
+    }
+
+    .features-menu > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .features-menu > ul > li {
+        font-size: 18px;
+        font-weight: 400;
+        padding: 0 0 10px;
+        margin: 25px 0 0px;
+    }
+
+    .features-menu  > ul > li > ul {
+        border-top: 1px dashed rgba(0, 0, 0, 0.1);
+        display: block;
+        list-style: none;
+        margin: 10px 0 0 0;
+        padding: 10px 0 0 0;
+        font-size: 14px;
+    }
+
+    .features-menu a {
+        color: #A8539B;
+        line-height: 1.5;
+    }
+}

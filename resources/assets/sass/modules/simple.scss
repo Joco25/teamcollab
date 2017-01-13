@@ -1,0 +1,316 @@
+#loading-bar .bar {
+    background: #f05f40;
+    opacity: .8;
+}
+
+.app {
+    background: red;
+}
+
+.modal-content {
+    border: 0;
+}
+
+.table tbody > tr > td.vert-align {
+    vertical-align: middle;
+}
+
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 75%;
+    padding-top: 8px;
+}
+
+.card-image-background {
+    background-size: cover;
+    position: absolute;
+    border-radius: 5px 5px 0 0;
+    padding: 15px;
+    width: 100%;
+    height: 200px;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.card-image-preview {
+    height: 200px;
+    margin: -15px 0 15px 0;
+    position: relative;
+    z-index: 2;
+}
+
+button.close {
+    position: relative;
+    z-index: 2;
+}
+
+.text-orange {
+    color: gold;
+}
+
+.simple-page {
+    background: #F1F1F1;
+    color: #212121;
+    height: 100%;
+    font-family: Arial;
+    color: #333;
+    overflow-x: hidden;
+    width: 100%;
+
+    .pointer {
+        cursor: pointer;
+    }
+
+    .fa-2 {
+        font-size: 22px;
+    }
+
+    .navbar {
+        background: #fff;
+        border: 0;
+        border-bottom: 1px solid #eee;
+
+        .navbar-brand {
+            color: #f05f40;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Montserrat';
+        }
+    }
+
+    .navbar-default .navbar-nav>.active>a,
+    .navbar-default .navbar-nav>.active>a:focus,
+    .navbar-default .navbar-nav>.active>a:hover {
+        box-shadow: inset 0 -4px 0 0px #f05f40;
+        background: white;
+    }
+
+    .navbar-nav > li > a {
+        font-weight: 500;
+        color: #333;
+
+        &:hover {
+            box-shadow: inset 0 -4px 0 0px #f05f40;
+            background: white;
+        }
+    }
+
+    .navbar-nav > .open > a {
+        color: #777;
+
+        &:hover {
+            color: #777;
+        }
+    }
+
+    .kanban-container {
+         overflow: auto;
+         position: relative;
+    }
+
+    .subtask-placeholder {
+        background: #08c;
+        border-radius: 3px;
+        height: 20px;
+        width: 100%;
+    }
+
+    .projects-container {
+        .panel {
+            background: transparent;
+            margin: 0;
+            border-radius: 0;
+            border: 0;
+            box-shadow: none;
+        }
+
+        .panel-body {
+            padding: 0;
+        }
+
+        table {
+            border: 0;
+            table-layout: fixed;
+            margin: 0;
+        }
+
+        tr {
+            border: 0;
+        }
+
+        td {
+            padding: 0;
+            vertical-align: top;
+            position: static;
+            border: 0;
+        }
+
+        td:first-child {
+            padding: 10px;
+            width: 200px;
+        }
+
+        .project-head {
+            background: white;
+            box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
+            padding: 10px;
+
+            h4 {
+                color: #4d4d4d;
+                display: block;
+                font-weight: bold;
+                font-size: 18px;
+                line-height: 22px;
+                margin: 0 0 10px 0;
+            }
+
+            .btn {
+                border: 0;
+                text-align: left;
+            }
+        }
+
+        .stage-container {
+            .stage-column {
+                padding: 10px;
+                width: 100%;
+                float: left;
+
+                .stage-header {
+                    background: white;
+                    box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+                    border-radius: 2px;
+                    clear: both;
+                    padding: 2px;
+                    margin: 0 0 10px;
+                }
+
+                h5 {
+                    color: #4d4d4d;
+                    display: block;
+                    font-weight: bold;
+                    font-size: 15px;
+                    line-height: 29px;
+                    margin: 0 0 0 8px;
+                    width: 100%;
+                }
+
+                ul.sortable {
+                    float: left;
+                    list-style-type: none;
+                    min-height: 200px;
+                    margin: 0 10px 0 0;
+                    padding: 0 0 40px;
+                    width: 100%;
+
+                    li {
+                        background: white;
+                        box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                        padding: 3px;
+                        position: relative;
+                        color: #6F6F6F;
+                        cursor: pointer;
+                        font-size: 14px;
+                        margin: 0 0 10px;
+                        padding: 10px;
+                        width: 100%;
+
+                        &:last-child {
+                            margin: 0;
+                        }
+
+                        &.card-blocked {
+                            background: #C95B59;
+                            border-color: red;
+                            color: white;
+
+                            span, i {
+                                color: white;
+                            }
+                        }
+
+                        &.sortable-preview {
+                            background: #ccc;
+                            min-height: 100px;
+                        }
+
+                        .progress {
+                            position: absolute;
+                            bottom: 0;
+                            right: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 6px;
+                            margin: 0;
+                            border-radius: 0 0 2px 2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .drag-overlay {
+        background: rgba(255, 255, 255, .8);
+        border: 3px dashed #ccc;
+        color: #999;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 15px;
+        text-align: center;
+
+        span {
+            color: #f05f40;
+        }
+    }
+
+    .drag-overlay:hover,
+    .dragover .drag-overlay {
+        border-color: #f05f40;
+        color: #f05f40;
+        opacity: .8;
+    }
+}
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}

@@ -1,0 +1,83 @@
+<div class="panel">
+	<div class="panel-body">
+		<div class='row'>
+			<div class='col-sm-12'>
+				<div class='inner-medium'>
+					<ul class="nav nav-pills pull-left mbn">
+						<li ng-class='{ active: ctrl.filters.type == "latest" }'>
+							<a ui-sref='conversations.list({ type: "latest" })'>Latest</a>
+						</li>
+
+						<li ng-class='{ active: ctrl.filters.type == "unread" }'>
+							<a ui-sref='conversations.list({ type: "unread" })'>
+								<i class='icon-bookmark'></i> Unread
+							</a>
+						</li>
+
+						<li ng-class='{ active: ctrl.filters.type == "starred" }'>
+							<a ui-sref='conversations.list({ type: "starred" })'>
+								<i class='icon-star'></i> Starred
+							</a>
+						</li>
+
+						<li ng-class='{ active: ctrl.filters.type == "top" }'>
+							<a ui-sref='conversations.list({ type: "top" })'>Top</a>
+						</li>
+					</ul>
+
+					<a ui-sref='conversations.create' class='btn btn-success pull-right'>
+						<i class='icon-plus text-success'></i> Create Discussion
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="panel-body">
+		<div infinite-scroll-disabled='ctrl.filters.disableInfiniteScroll' infinite-scroll='nextPage()' infinite-scroll-distance='2'>
+			<table class='table table-striped table-middle table-hover' style="margin: 0;">
+				<thead>
+					<tr>
+						<th></th>
+						<th class='span5'>Discussion</th>
+						<th>Users</th>
+						<th class='text-center'>Posts</th>
+						<th class='text-center'>Likes</th>
+						<th class='text-center'>Views</th>
+						<th colspan='2' class='text-center'>Activity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat='topic in ctrl.topics'>
+						<td class='text-center vert-align'>
+							<i
+								class='fa fa-star fa-2'
+								ng-click='ctrl.toggleTopicUserStar(topic)'
+								ng-class='{ "text-muted": !topic.is_starred, "text-orange": topic.is_starred }'></i>
+						</td>
+						<td class='vert-align pointer' ui-sref='conversations.view({ topicId: topic.id })'>
+							<h5 ng-class='{ "text-muted": !topic.is_unread }'>{{ topic.name }}</h5>
+						</td>
+						<td class="vert-align">
+							<img class="img-rounded" ng-repeat='user in topic.users' gravatar-src="user.email" gravatar-size="25" title="{{ user.name }}">
+						</td>
+						<td class='text-center vert-align'>{{ topic.post_count }}</td>
+						<td class='text-center vert-align'>
+							<span ng-if='topic.like_count > 0'>
+								{{ topic.like_count }} <i class='icon-heart text-red'></i>
+							</span>
+						</td>
+						<td class='text-center vert-align'>
+							<span ng-if='topic.view_count > 0'>
+								{{ topic.view_count }}
+							</span>
+						</td>
+						<td class='text-center vert-align'>{{ topic.updated_at | amUtc | amLocal | amDateFormat:'MMM Do' }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

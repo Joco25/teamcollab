@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "devDependencies": {
+    "coffeeify": "^1.1.0",
+    "gulp": "^3.8.8"
+  },
+  "dependencies": {
+    "angular": "^1.4.6",
+    "angular-bootstrap-npm": "^0.13.4",
+    "angular-elastic": "^2.5.0",
+    "angular-gantt": "^1.2.7",
+    "angular-gravatar": "^0.4.1",
+    "angular-hotkeys": "^1.6.0",
+    "angular-loading-bar": "^0.8.0",
+    "angular-local-storage": "^0.2.2",
+    "angular-messages": "^1.4.3",
+    "angular-moment": "1.0.0-beta.3",
+    "angular-sanitize": "^1.4.5",
+    "angular-stripe": "^4.2.8",
+    "angular-ui-router": "^0.2.15",
+    "angular-ui-sortable": "^0.13.4",
+    "bootstrap-sass": "^3.0.0",
+    "grunt-cli": "^0.1.13",
+    "jquery": "^2.1.4",
+    "laravel-elixir": "^3.0.0",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "ng-file-upload": "^7.0.17",
+    "ng-showdown": "^1.0.0"
+  }
+}

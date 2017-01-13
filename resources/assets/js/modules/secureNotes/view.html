@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-sm-9">
+        <h1>Secure Note</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-4">
+                1. Create a note and get a link
+            </div>
+            <div class="col-sm-4">
+                2. Copy the link and send it to whom you want to read the note
+            </div>
+            <div class="col-sm-4">
+                3. The note will self-destruct after being read
+            </div>
+        </div>
+
+        <hr>
+
+        <div v-if="secureNoteLink" class="well well-small">
+            <p>Copy this link and paste it into an email or instant message and send it to whom you want to read the note, or destroy it now</p>
+            <div class="form-group">
+                <input class="form-control" type="text" v-model="secureNoteLink">
+            </div>
+            <button class="btn btn-primary" v-on="click: clearSecureNoteLink">Create Another Note</button>
+        </div>
+
+        <div v-if="!secureNoteLink">
+            <h4>Create a Secure Note</h4>
+            <div class="form-group">
+                <textarea v-model="newSecureNote" rows="10" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-primary" v-on="click: createSecureNote">Create Note</button>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <h2>Unviewed Notes</h2>
+        <ul>
+            <li v-repeat="secureNote: secureNotes">
+                {{secureNote.body}}
+                <button class="btn btn-danger" v-on="click: deleteSecureNote(secureNote)">Delete</button>
+            </li>
+        </ul>
+    </div>
+</div>

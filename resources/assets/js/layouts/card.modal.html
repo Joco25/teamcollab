@@ -1,0 +1,280 @@
+<div class="modal-header">
+    <button
+        ng-click="ctrl.cancel()"
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+    <div class="text-center" ng-show="ctrl.selectedCard.attachments.length > 0">
+        <div
+            class="card-image-background"
+            style="background-image: url(http://res.cloudinary.com/michaeljcalkins/image/fetch/h_200,e_blur:719,w_900,c_fill/{{ ctrl.s3BucketAttachmentsUrl + ctrl.selectedCard.attachments[0].filename }})"></div>
+        <a target="_blank" ng-href="{{ ctrl.s3BucketAttachmentsUrl + ctrl.selectedCard.attachments[0].filename }}">
+            <img
+                class="card-image-preview"
+                ng-src="http://res.cloudinary.com/michaeljcalkins/image/fetch/c_fill,g_center,w_600,h_200/{{ ctrl.s3BucketAttachmentsUrl + ctrl.selectedCard.attachments[0].filename }}">
+        </a>
+    </div>
+
+    <h4
+        ng-click="ctrl.selectedCard.editName = !ctrl.selectedCard.editName; ctrl.selectedCardName = ctrl.selectedCard.name"
+        ng-hide="ctrl.selectedCard.editName"
+        class="modal-title">{{ ctrl.selectedCard.name || 'Edit card name...' }}</h4>
+
+    <div ng-show="ctrl.selectedCard.editName">
+        <div class="form-group">
+            <textarea
+                class="form-control"
+                ng-keydown="$event.keyCode == 13 && ctrl.updateCardName()"
+                ng-blur="ctrl.updateCardName()"
+                msd-elastic
+                ng-model="ctrl.selectedCardName"></textarea>
+        </div>
+        <button
+            class="btn btn-success btn-sm"
+            ng-click="ctrl.updateCardName()">
+            Save
+        </button>
+        <button
+            class="btn btn-link btn-sm"
+            ng-click="ctrl.selectedCard.editName = false">
+            Cancel
+        </button>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-9">
+            <div style="margin-bottom: 15px">
+                <label class="text-muted" ng-click="ctrl.selectCardDescription()">
+                    Description
+                    <a ng-hide="ctrl.showCardDescription" class="pointer text-muted" ng-click="ctrl.selectCardDescription()"><u>Edit</u></a>
+                </label>
+                <div
+                    class="pointer"
+                    style="white-space: pre;"
+                    ng-hide="ctrl.showCardDescription"
+                    ng-click="ctrl.selectCardDescription()"
+                    ng-class="{ 'text-muted': !ctrl.selectedCard.description }">{{ ctrl.selectedCard.description || 'Edit the description...' }}</div>
+
+                <div ng-show="ctrl.showCardDescription">
+                    <div class="form-group">
+                        <textarea
+                            class="form-control"
+                            msd-elastic
+                            placeholder="Describe what's happening here..."
+                            ng-blur="ctrl.updateCardDescription()"
+                            ng-model="ctrl.selectedCardDescription"></textarea>
+                    </div>
+                    <button
+                        class="btn btn-success btn-sm"
+                        ng-click="ctrl.updateCardDescription()">
+                        Save
+                    </button>
+                    <button
+                        class="btn btn-link btn-sm"
+                        ng-click="ctrl.showCardDescription = false">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 15px">
+                <div class="col-sm-12">
+                    <h4><strong>Subtasks</strong></h4>
+                    <div class="form-group">
+                        <textarea
+                            placeholder="Create a subtask..."
+                            class="form-control"
+                            rows="1"
+                            msd-elastic
+                            ng-model="ctrl.newSubtaskBody"
+                            ng-keyup="$event.keyCode == 13 && ctrl.createSubtask()"></textarea>
+                    </div>
+                    <div
+                        ui-sortable="ctrl.subTaskSortableOptions"
+                        ng-model="ctrl.selectedCard.subtasks">
+                        <div
+                            class="media"
+                            ng-repeat="task in ctrl.selectedCard.subtasks">
+                            <div class="media-left">
+                                <i
+                                    class="fa fa-2 pointer"
+                                    ng-click="ctrl.toggleSubtask(task)"
+                                    ng-class="{ 'fa-square-o': task.checked != true, 'fa-check-square-o': task.checked == true }"></i>
+                            </div>
+                            <div class="media-body">
+                                <div class="pointer" ng-click="ctrl.editSubtask(task)" ng-hide="task.editMode">{{ task.body || 'Click to edit subtask...' }}</div>
+                                <span ng-show="task.editMode">
+                                    <div class="form-group">
+                                        <textarea
+                                            type="text"
+                                            class="form-control"
+                                            msd-elastic
+                                            ng-model="task.newBody"
+                                            ng-keyup="$event.keyCode == 13 && ctrl.updateSubtask(task)"></textarea>
+                                    </div>
+                                    <button class="btn btn-success btn-sm" ng-click="ctrl.updateSubtask(task)">Save</button>
+                                    <button class="btn btn-link btn-sm" ng-click="ctrl.cancelSubtaskEdit(task)">Cancel</button>
+                                    <button class="btn btn-link btn-sm pull-right" ng-click="ctrl.deleteSubtask(task)">Delete</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 15px">
+                <div class="col-sm-12">
+                    <h4><strong>Attachments</strong></h4>
+                    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                    <div
+                        class="dropbox"
+                        ng-model="ctrl.files"
+                        ngf-drop="ctrl.upload($file)"
+                        ngf-select="ctrl.uploadFiles($files)"
+                        ngf-drag-over-class="{accept:'dragover'}"
+                        ngf-multiple="true"
+                        ngf-allow-dir="false">
+                        <div class="drag-overlay" ng-hide="ctrl.states.uploading">Drop files here or <span>Browse<span></div>
+                        <div class="drag-overlay" ng-show="ctrl.states.uploading">Uploading...</div>
+                    </div>
+                    <div class="media" ng-repeat="attachment in ctrl.selectedCard.attachments">
+                        <div class="media-left">
+                            <a target="_blank" ng-href="{{ ctrl.s3BucketAttachmentsUrl + attachment.filename }}">
+                                <img simple-lightbox ng-src="http://res.cloudinary.com/michaeljcalkins/image/fetch/w_110,h_80,c_thumb/{{ ctrl.s3BucketAttachmentsUrl + attachment.filename }}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading"><a target="_blank" ng-href="{{ ctrl.s3BucketAttachmentsUrl + attachment.filename }}">{{ attachment.original_filename }}</a></h4>
+                            <p>Added on {{ attachment.created_at | amUtc | amLocal | amDateFormat:'MMM Do' }}</p>
+                            <button
+                                class="btn btn-default btn-sm"
+                                ng-click="ctrl.downloadAttachment(attachment)">
+                                Download
+                            </button>
+                            <button
+                                class="btn btn-link btn-sm"
+                                type="button"
+                                ng-click="ctrl.deleteAttachment(attachment)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4><strong>Comments</strong></h4>
+                    <div class="form-group">
+                        <textarea
+                            msd-elastic
+                            class="form-control"
+                            placeholder="What's on your mind?"
+                            ng-model="ctrl.newCommentBody"></textarea>
+                    </div>
+                    <button
+                        class="btn btn-success btn-sm"
+                        ng-click="ctrl.createComment()">Comment</button>
+
+                    <div
+                        class="media"
+                        ng-repeat="comment in ctrl.selectedCard.comments | orderBy:'-'">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="img-rounded media-object" gravatar-src="comment.user.email" gravatar-size="40">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div ng-hide="comment.editMode">
+                                <strong>{{ comment.user.name }}</strong> <small class="text-muted">{{ comment.created_at | amUtc | amLocal | amDateFormat:'MMM Do' }}</small>
+                                <div media-comment style="margin: 4px 0 4px" ng-model="comment.body"></div>
+                                <small>
+                                    <a class="pointer" ng-click="ctrl.editComment(comment)">Edit</a> -
+                                    <a class="pointer" ng-click="ctrl.deleteComment(comment)">Delete</a>
+                                </small>
+                            </div>
+                            <div ng-show="comment.editMode">
+                                <div class="form-group">
+                                    <textarea
+                                        msd-elastic
+                                        type="text"
+                                        class="form-control"
+                                        ng-model="comment.newBody"></textarea>
+                                </div>
+                                <button
+                                    class="btn btn-success btn-sm"
+                                    ng-click="ctrl.updateComment(comment)">Save</button>
+                                <button
+                                    class="btn btn-link btn-sm"
+                                    ng-click="ctrl.cancelCommentEdit(comment)">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label>Stage</label>
+            <div
+                class="btn-group"
+                style="width: 100%; margin-bottom: 15px"
+                title="Stage this project is in.">
+                <button class="btn btn-block btn-default dropdown-toggle" data-toggle="dropdown" type="button">
+                    {{ ctrl.selectedCard.stage.name }}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="stage in ctrl.selectedCard.stage.project.stages" ng-click="ctrl.updateStage(stage)">
+                        <a href="#">{{ stage.name }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 15px">
+                <label title="Impact value lets you determine the priority of tasks against others.">Impact</label>
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    ng-model="ctrl.selectedCard.impact"
+                    ng-change="ctrl.updateCardImpact()">
+            </div>
+
+            <div style="margin-bottom: 15px">
+                <label>Assigned</label>
+                <selectize
+                    config="ctrl.usersConfig"
+                    options="ctrl.users"
+                    ng-model="ctrl.selectedCard.userIds"></selectize>
+            </div>
+
+            <div style="margin-bottom: 15px">
+                <label>Tags</label>
+                <selectize
+                    config="ctrl.tagsConfig"
+                    options="ctrl.tags"
+                    ng-model="ctrl.selectedCard.tagNames"
+                    style="margin-bottom: 15px"></selectize>
+            </div>
+
+            <button
+                ng-class="{
+                    'btn-danger': ctrl.selectedCard.blocked,
+                    'btn-default': !ctrl.selectedCard.blocked
+                }"
+                class="btn btn-block"
+                ng-click="ctrl.blockToggleSelectedCard()">
+                {{ ctrl.selectedCard.blocked ? 'Unblock' : 'Blocked' }}
+            </button>
+            <hr>
+            <button
+                class="btn btn-danger btn-block"
+                ng-click="ctrl.deleteCard()">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
